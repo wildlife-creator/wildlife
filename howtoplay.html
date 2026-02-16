@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ワイルドライフ - 遊び方</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #1a1a2e;
+      color: #e0ddd4;
+      font-family: 'Courier New', monospace;
+      line-height: 1.8;
+    }
+
+    .page-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* ヘッダー */
+    header {
+      text-align: center;
+      padding: 40px 0 30px;
+      border-bottom: 3px solid #4a8c2a;
+      margin-bottom: 40px;
+    }
+    header h1 {
+      font-size: 42px;
+      color: #4adc5a;
+      text-shadow: 3px 3px 0 #000;
+      margin-bottom: 8px;
+    }
+    header .subtitle {
+      color: #888;
+      font-size: 14px;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 16px;
+      color: #4adc5a;
+      text-decoration: none;
+      border: 1px solid #4a8c2a;
+      padding: 6px 18px;
+      font-size: 13px;
+    }
+    .back-link:hover { background: #4a8c2a33; }
+
+    /* 目次 */
+    .toc {
+      background: rgba(74, 140, 42, 0.1);
+      border: 1px solid #4a8c2a;
+      padding: 20px 28px;
+      margin-bottom: 40px;
+    }
+    .toc h2 {
+      font-size: 16px;
+      color: #4adc5a;
+      margin-bottom: 10px;
+    }
+    .toc ol {
+      padding-left: 20px;
+    }
+    .toc li {
+      margin: 4px 0;
+    }
+    .toc a {
+      color: #8bc34a;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .toc a:hover { text-decoration: underline; }
+
+    /* セクション */
+    section {
+      margin-bottom: 48px;
+    }
+    h2 {
+      font-size: 22px;
+      color: #4adc5a;
+      border-left: 4px solid #4adc5a;
+      padding-left: 12px;
+      margin-bottom: 18px;
+    }
+    h3 {
+      font-size: 16px;
+      color: #e67e22;
+      margin: 20px 0 10px;
+    }
+    p {
+      font-size: 14px;
+      margin-bottom: 12px;
+      color: #ccc;
+    }
+    strong { color: #fff; }
+
+    /* テーブル */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+      font-size: 13px;
+    }
+    th {
+      background: #2a2a40;
+      color: #4adc5a;
+      padding: 8px 12px;
+      text-align: left;
+      border: 1px solid #444;
+    }
+    td {
+      padding: 7px 12px;
+      border: 1px solid #333;
+      color: #ccc;
+    }
+    tr:nth-child(even) td {
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* 操作キー表 */
+    .key {
+      display: inline-block;
+      background: #333;
+      color: #fff;
+      padding: 2px 8px;
+      border: 1px solid #555;
+      border-radius: 3px;
+      font-size: 12px;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    /* アイコン色見本 */
+    .color-dot {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 6px;
+      border: 1px solid #555;
+    }
+    .color-block {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      vertical-align: middle;
+      margin-right: 6px;
+      border: 1px solid #555;
+    }
+
+    /* ヒント・注意ボックス */
+    .tip {
+      background: rgba(46, 204, 113, 0.1);
+      border-left: 3px solid #2ecc71;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    .tip::before {
+      content: "TIPS: ";
+      color: #2ecc71;
+      font-weight: bold;
+    }
+    .warning {
+      background: rgba(231, 76, 60, 0.1);
+      border-left: 3px solid #e74c3c;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    .warning::before {
+      content: "注意: ";
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    /* 矢印 */
+    .arrow { color: #e67e22; margin: 0 6px; }
+
+    /* レシピカード */
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 12px 0;
+    }
+    .recipe-card {
+      background: rgba(20, 15, 10, 0.6);
+      border: 1px solid #555;
+      padding: 10px 14px;
+      font-size: 13px;
+    }
+    .recipe-card .result {
+      color: #e67e22;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .recipe-card .mats {
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      border-top: 1px solid #333;
+      color: #555;
+      font-size: 12px;
+    }
+
+    /* 横スクロール防止 */
+    @media (max-width: 600px) {
+      .recipe-grid { grid-template-columns: 1fr; }
+      header h1 { font-size: 28px; }
+      table { font-size: 12px; }
+      th, td { padding: 5px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <header>
+      <h1>ワイルドライフ</h1>
+      <div class="subtitle">- サバイバル建築ゲーム 遊び方ガイド -</div>
+      <a href="index.html" class="back-link">ゲームに戻る</a>
+    </header>
+
+    <!-- 目次 -->
+    <nav class="toc">
+      <h2>もくじ</h2>
+      <ol>
+        <li><a href="#overview">ゲーム概要</a></li>
+        <li><a href="#controls">操作方法</a></li>
+        <li><a href="#survival">サバイバルの基本</a></li>
+        <li><a href="#gathering">資源の採集</a></li>
+        <li><a href="#crafting">錬成（クラフト）</a></li>
+        <li><a href="#farming">農業</a></li>
+        <li><a href="#cooking">料理</a></li>
+        <li><a href="#combat">戦闘</a></li>
+        <li><a href="#house">家の使い方</a></li>
+        <li><a href="#items">アイテム一覧</a></li>
+        <li><a href="#tips">攻略のヒント</a></li>
+      </ol>
+    </nav>
+
+    <!-- 1. ゲーム概要 -->
+    <section id="overview">
+      <h2>1. ゲーム概要</h2>
+      <p>
+        「ワイルドライフ」は、自然の中でサバイバル生活を送る8bitドット絵風ゲームです。<br>
+        木や石を集め、道具を作り、畑を耕し、料理をして、夜の敵から身を守りましょう。
+      </p>
+      <p>
+        <strong>ゲーム内時間:</strong> 現実の1分 = ゲーム内1時間です。<br>
+        <strong>1日の流れ:</strong> 朝6:00に1日が始まり、夜19:00から翌朝6:00まで暗くなります。
+      </p>
+      <p>
+        <strong>セーブ:</strong> 画面右上の「セーブ」ボタンでいつでも保存できます。<br>
+        次回起動時に「つづきから」で再開できます。
+      </p>
+    </section>
+
+    <!-- 2. 操作方法 -->
+    <section id="controls">
+      <h2>2. 操作方法</h2>
+      <table>
+        <tr>
+          <th>操作</th>
+          <th>説明</th>
+        </tr>
+        <tr>
+          <td><span class="key">左クリック</span></td>
+          <td>移動 / 資源を採集 / 敵を攻撃 / 各種アクション</td>
+        </tr>
+        <tr>
+          <td><span class="key">Shift</span> + <span class="key">左クリック</span></td>
+          <td>走る（空腹の減りが1.5倍速くなります）</td>
+        </tr>
+        <tr>
+          <td><span class="key">右クリック</span></td>
+          <td>ブロック配置 / ブロック撤去（同じタイルを右クリックで切替）</td>
+        </tr>
+        <tr>
+          <td><span class="key">I</span></td>
+          <td>インベントリ（もちもの）を開く/閉じる</td>
+        </tr>
+        <tr>
+          <td><span class="key">C</span></td>
+          <td>錬成メニューを開く/閉じる</td>
+        </tr>
+        <tr>
+          <td><span class="key">Esc</span></td>
+          <td>開いているメニューを閉じる</td>
+        </tr>
+      </table>
+
+      <h3>インベントリの操作</h3>
+      <table>
+        <tr><th>操作</th><th>説明</th></tr>
+        <tr><td>アイテムを1回クリック</td><td>選択する（種は選択してから畑に植える）</td></tr>
+        <tr><td>道具をダブルクリック</td><td>装備する / 装備を外す</td></tr>
+        <tr><td>食べ物をダブルクリック</td><td>食べて満腹度を回復する</td></tr>
+        <tr><td>「食べる」ボタン</td><td>選択中の食べ物を食べる</td></tr>
+      </table>
+    </section>
+
+    <!-- 3. サバイバルの基本 -->
+    <section id="survival">
+      <h2>3. サバイバルの基本</h2>
+
+      <h3>体力（HP）</h3>
+      <p>
+        画面左上の赤いゲージが体力です。最大100。<br>
+        ゼロになると<strong>強制睡眠</strong>が発動し、HPが50%の状態で翌朝に家の中で目覚めます。
+      </p>
+
+      <h3>満腹度</h3>
+      <p>
+        オレンジのゲージが満腹度です。最大100。<br>
+        時間経過で徐々に減少します（<strong>1ゲーム時間あたり5</strong>のペース）。<br>
+        走ると1.5倍の速さで減ります。
+      </p>
+      <p>
+        満腹度がゼロになると<strong>体力が減り続け、動けなくなります</strong>。<br>
+        食べ物を食べて回復しましょう。
+      </p>
+
+      <h3>昼と夜</h3>
+      <table>
+        <tr><th>時間帯</th><th>状態</th></tr>
+        <tr><td>6:00 〜 8:00</td><td>朝（徐々に明るくなる）</td></tr>
+        <tr><td>8:00 〜 17:00</td><td>昼（明るい、動物が出現）</td></tr>
+        <tr><td>17:00 〜 19:00</td><td>夕方（徐々に暗くなる）</td></tr>
+        <tr><td>19:00 〜 6:00</td><td>夜（暗い、モンスターが出現）</td></tr>
+      </table>
+
+      <h3>環境ダメージ</h3>
+      <table>
+        <tr><th>状況</th><th>ダメージ</th><th>対策</th></tr>
+        <tr><td>夜間の屋外（19:00〜6:00）</td><td>寒さで30秒ごとにHP-2</td><td>家の中に入る</td></tr>
+        <tr><td>昼間の屋外（11:00〜14:00）</td><td>暑さで60秒ごとにHP-1</td><td>家の中に入る</td></tr>
+      </table>
+      <div class="tip">家の中では環境ダメージを受けません。夜は家に帰りましょう！</div>
+    </section>
+
+    <!-- 4. 資源の採集 -->
+    <section id="gathering">
+      <h2>4. 資源の採集</h2>
+      <p>
+        マップ上に生えている木や石をクリックすると、プレイヤーが近づいて採集を始めます。<br>
+        プログレスバーが満タンになると資源を獲得できます。
+      </p>
+      <table>
+        <tr><th>資源</th><th>ドロップ</th><th>適した道具</th><th>素手の場合</th></tr>
+        <tr><td>木</td><td>木材 3〜5個</td><td>斧（採集が速い）</td><td>2倍の時間がかかる</td></tr>
+        <tr><td>石</td><td>石 2〜4個</td><td>ツルハシ</td><td>2倍の時間がかかる</td></tr>
+        <tr><td>鉄鉱石（マップ端）</td><td>鉄 1〜2個</td><td>ツルハシ</td><td>2倍の時間がかかる</td></tr>
+      </table>
+      <p>
+        <strong>草を刈る:</strong> 草タイルをクリックすると土になり、30%の確率で<strong>種</strong>を入手できます。
+      </p>
+      <div class="tip">資源は3日ごとに少しずつ再生します。完全に枯渇する心配はありません。</div>
+    </section>
+
+    <!-- 5. 錬成 -->
+    <section id="crafting">
+      <h2>5. 錬成（クラフト）</h2>
+      <p>
+        <span class="key">C</span>キーで錬成メニューを開きます。<br>
+        素材が揃っていれば道具や家具を作ることができます。
+      </p>
+
+      <h3>道具一覧</h3>
+      <table>
+        <tr><th>ランク</th><th>耐久度</th><th>効率</th><th>特徴</th></tr>
+        <tr><td>木</td><td>30</td><td>1.0倍</td><td>序盤で作れる基本の道具</td></tr>
+        <tr><td>石</td><td>60</td><td>1.5倍</td><td>耐久・効率アップ</td></tr>
+        <tr><td>鉄</td><td>120</td><td>2.0倍</td><td>最上位。長持ちで高効率</td></tr>
+      </table>
+
+      <h3>錬成レシピ</h3>
+
+      <div class="recipe-grid">
+        <div class="recipe-card">
+          <div class="result">木の斧</div>
+          <div class="mats">木材 ×5</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">木のツルハシ</div>
+          <div class="mats">木材 ×5</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">木のクワ</div>
+          <div class="mats">木材 ×5</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">木の剣</div>
+          <div class="mats">木材 ×8</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">石の斧</div>
+          <div class="mats">石 ×3 + 木材 ×2</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">石のツルハシ</div>
+          <div class="mats">石 ×3 + 木材 ×2</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">石のクワ</div>
+          <div class="mats">石 ×3 + 木材 ×2</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">石の剣</div>
+          <div class="mats">石 ×5 + 木材 ×2</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">鉄の斧</div>
+          <div class="mats">鉄 ×3 + 木材 ×2</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">鉄のツルハシ</div>
+          <div class="mats">鉄 ×3 + 木材 ×2</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">鉄のクワ</div>
+          <div class="mats">鉄 ×3 + 木材 ×2</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">鉄の剣</div>
+          <div class="mats">鉄 ×5 + 木材 ×2</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">じょうろ</div>
+          <div class="mats">鉄 ×2 + 木材 ×3</div>
+        </div>
+        <div class="recipe-card">
+          <div class="result">収納箱</div>
+          <div class="mats">木材 ×10</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 農業 -->
+    <section id="farming">
+      <h2>6. 農業</h2>
+      <p>畑を作って作物を育てることができます。</p>
+
+      <h3>手順</h3>
+      <table>
+        <tr><th>ステップ</th><th>操作</th><th>説明</th></tr>
+        <tr>
+          <td>1. 耕す</td>
+          <td>クワを装備して草タイルをクリック</td>
+          <td>草が畑に変わります</td>
+        </tr>
+        <tr>
+          <td>2. 種を植える</td>
+          <td>インベントリで種を選択 → 畑をクリック</td>
+          <td>種が植わり芽が出ます</td>
+        </tr>
+        <tr>
+          <td>3. 水やり</td>
+          <td>じょうろを装備して作物をクリック</td>
+          <td>水やりすると翌日に成長します</td>
+        </tr>
+        <tr>
+          <td>4. 収穫</td>
+          <td>実った作物をクリック</td>
+          <td>食べ物1〜3個 + 50%の確率で種1個</td>
+        </tr>
+      </table>
+
+      <h3>成長段階</h3>
+      <p>
+        <strong>芽</strong> → <strong>苗</strong> → <strong>成長中</strong> → <strong>収穫可能</strong><br>
+        毎日水をやると翌朝に1段階成長します。<strong>3日で収穫</strong>できます。<br>
+        水やりを忘れるとその日は成長しません。
+      </p>
+
+      <h3>種の入手方法</h3>
+      <p>
+        草タイルをクリックすると<strong>30%の確率</strong>でランダムな種が手に入ります。<br>
+        収穫時にも50%の確率で種がドロップします。
+      </p>
+
+      <h3>育てられる作物</h3>
+      <table>
+        <tr><th>種</th><th>収穫物</th><th>満腹回復</th></tr>
+        <tr><td>トマトの種</td><td>トマト</td><td>+15</td></tr>
+        <tr><td>かぼちゃの種</td><td>かぼちゃ</td><td>+20</td></tr>
+        <tr><td>なすの種</td><td>なす</td><td>+15</td></tr>
+        <tr><td>いちごの種</td><td>いちご</td><td>+10</td></tr>
+        <tr><td>さくらんぼの種</td><td>さくらんぼ</td><td>+8</td></tr>
+        <tr><td>ももの種</td><td>もも</td><td>+12</td></tr>
+        <tr><td>とうもろこしの種</td><td>とうもろこし</td><td>+18</td></tr>
+      </table>
+    </section>
+
+    <!-- 7. 料理 -->
+    <section id="cooking">
+      <h2>7. 料理</h2>
+      <p>
+        家の中の<strong>調理台</strong>をクリックすると料理メニューが開きます。<br>
+        料理すると満腹度の回復量が大幅にアップします。
+      </p>
+
+      <h3>料理レシピ</h3>
+      <table>
+        <tr><th>料理名</th><th>素材</th><th>回復量</th></tr>
+        <tr>
+          <td><span class="color-dot" style="background:#7b241c"></span>焼き牛肉</td>
+          <td>牛肉 ×1</td>
+          <td><strong>+25</strong></td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#b9770e"></span>焼き鶏肉</td>
+          <td>鶏肉 ×1</td>
+          <td><strong>+20</strong></td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#c0606e"></span>焼き豚肉</td>
+          <td>豚肉 ×1</td>
+          <td><strong>+25</strong></td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#27ae60"></span>野菜サラダ</td>
+          <td>トマト ×1 + なす ×1</td>
+          <td><strong>+30</strong></td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#e67e22"></span>野菜スープ</td>
+          <td>かぼちゃ ×1 + とうもろこし ×1</td>
+          <td><strong>+35</strong></td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#e91e8c"></span>フルーツ盛り</td>
+          <td>いちご ×1 + さくらんぼ ×1 + もも ×1</td>
+          <td><strong>+35</strong></td>
+        </tr>
+        <tr>
+          <td><span class="color-dot" style="background:#8e44ad"></span>特製シチュー</td>
+          <td>牛肉 ×1 + かぼちゃ ×1 + トマト ×1</td>
+          <td><strong>+50</strong></td>
+        </tr>
+      </table>
+      <div class="tip">特製シチューは回復量50！素材は大変ですが、最強の料理です。</div>
+    </section>
+
+    <!-- 8. 戦闘 -->
+    <section id="combat">
+      <h2>8. 戦闘</h2>
+
+      <h3>昼の動物</h3>
+      <p>昼間はおとなしい動物が出現します。攻撃してきませんが、倒すと肉をドロップします。</p>
+      <table>
+        <tr><th>動物</th><th>HP</th><th>ドロップ</th></tr>
+        <tr><td>ウシ</td><td>20</td><td>牛肉 2〜3個</td></tr>
+        <tr><td>ニワトリ</td><td>5</td><td>鶏肉 1〜2個</td></tr>
+        <tr><td>ブタ</td><td>15</td><td>豚肉 2〜3個</td></tr>
+      </table>
+
+      <h3>夜のモンスター</h3>
+      <p>夜になるとプレイヤーを追いかけてくるモンスターが出現します。</p>
+      <table>
+        <tr><th>モンスター</th><th>HP</th><th>攻撃力</th><th>特徴</th></tr>
+        <tr><td>ゾンビ</td><td>30</td><td>8</td><td>遅いが硬い</td></tr>
+        <tr><td>スケルトン</td><td>20</td><td>12</td><td>速くて攻撃力が高い</td></tr>
+      </table>
+
+      <h3>攻撃方法</h3>
+      <p>
+        敵の近く（2タイル以内）でクリックすると攻撃します。<br>
+        <strong>剣を装備</strong>するとダメージが大幅に上がります。
+      </p>
+      <table>
+        <tr><th>武器</th><th>ダメージ</th></tr>
+        <tr><td>素手</td><td>3</td></tr>
+        <tr><td>木の剣</td><td>8</td></tr>
+        <tr><td>石の剣</td><td>12</td></tr>
+        <tr><td>鉄の剣</td><td>18</td></tr>
+      </table>
+      <div class="warning">夜の屋外では寒さダメージも受けます。無理な戦闘は避けましょう。</div>
+    </section>
+
+    <!-- 9. 家の使い方 -->
+    <section id="house">
+      <h2>9. 家の使い方</h2>
+      <p>
+        マップ中央にある家の<strong>扉タイル</strong>に乗ると自動で家の中に入ります。<br>
+        家の中は安全で、環境ダメージを受けません。
+      </p>
+      <table>
+        <tr><th>家具</th><th>操作</th><th>効果</th></tr>
+        <tr>
+          <td>ベッド</td>
+          <td>クリック</td>
+          <td>眠って翌朝6:00まで進む。<strong>HP全回復</strong></td>
+        </tr>
+        <tr>
+          <td>収納箱</td>
+          <td>クリック</td>
+          <td>30スロットの保管庫。アイテムをクリックで移動</td>
+        </tr>
+        <tr>
+          <td>調理台</td>
+          <td>クリック</td>
+          <td>料理メニューを開く</td>
+        </tr>
+        <tr>
+          <td>出口</td>
+          <td>クリック</td>
+          <td>外に出る（家の前に移動）</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- 10. アイテム一覧 -->
+    <section id="items">
+      <h2>10. アイテム一覧</h2>
+
+      <h3>資源</h3>
+      <table>
+        <tr><th>名前</th><th>スタック</th><th>入手方法</th></tr>
+        <tr><td><span class="color-block" style="background:#5c3a1e"></span>木材</td><td>64</td><td>木を伐採</td></tr>
+        <tr><td><span class="color-block" style="background:#888"></span>石</td><td>64</td><td>石を採掘</td></tr>
+        <tr><td><span class="color-block" style="background:#d4883c"></span>鉄</td><td>64</td><td>鉄鉱石を採掘（マップ端）</td></tr>
+        <tr><td><span class="color-block" style="background:#8B7355"></span>土</td><td>64</td><td>ブロック配置用</td></tr>
+        <tr><td><span class="color-block" style="background:#d4b878"></span>砂</td><td>64</td><td>ブロック配置用</td></tr>
+      </table>
+
+      <h3>食べ物の回復量一覧</h3>
+      <table>
+        <tr><th>カテゴリ</th><th>名前</th><th>回復量</th></tr>
+        <tr><td>果物</td><td>りんご</td><td>+10</td></tr>
+        <tr><td rowspan="3">生肉</td><td>牛肉</td><td>+10</td></tr>
+        <tr><td>鶏肉</td><td>+8</td></tr>
+        <tr><td>豚肉</td><td>+10</td></tr>
+        <tr><td rowspan="7">作物</td><td>トマト</td><td>+15</td></tr>
+        <tr><td>かぼちゃ</td><td>+20</td></tr>
+        <tr><td>なす</td><td>+15</td></tr>
+        <tr><td>とうもろこし</td><td>+18</td></tr>
+        <tr><td>もも</td><td>+12</td></tr>
+        <tr><td>いちご</td><td>+10</td></tr>
+        <tr><td>さくらんぼ</td><td>+8</td></tr>
+        <tr><td rowspan="4">料理</td><td>焼き牛肉 / 焼き豚肉</td><td>+25</td></tr>
+        <tr><td>焼き鶏肉</td><td>+20</td></tr>
+        <tr><td>野菜サラダ</td><td>+30</td></tr>
+        <tr><td>野菜スープ / フルーツ盛り</td><td>+35</td></tr>
+        <tr><td>最強料理</td><td>特製シチュー</td><td><strong>+50</strong></td></tr>
+      </table>
+    </section>
+
+    <!-- 11. 攻略のヒント -->
+    <section id="tips">
+      <h2>11. 攻略のヒント</h2>
+
+      <div class="tip">
+        序盤は木を集めて斧・ツルハシ・クワを作りましょう。初期装備の道具は耐久度が低いので、石の道具を早めに目指すと楽になります。
+      </div>
+      <div class="tip">
+        夕方17:00になったら帰宅の合図。夜の屋外は寒さダメージ + モンスターのダブルパンチで危険です。
+      </div>
+      <div class="tip">
+        草を刈って種を集めたら、家の近くに畑を作りましょう。毎日水やりを忘れずに！3日で収穫できます。
+      </div>
+      <div class="tip">
+        生肉はそのまま食べるより、家の調理台で料理した方が回復量が2倍以上になります。
+      </div>
+      <div class="tip">
+        鉄鉱石はマップの端の方にあります。遠征する時は食べ物を多めに持っていきましょう。
+      </div>
+      <div class="tip">
+        収納箱は木材10個で作れます。持ちきれないアイテムは家の収納箱に保管しておくと安心です。
+      </div>
+      <div class="tip">
+        特製シチュー（牛肉 + かぼちゃ + トマト）は回復量50で最強！畑と牧畜を両立して素材を揃えましょう。
+      </div>
+    </section>
+
+    <footer>
+      ワイルドライフ - サバイバル建築ゲーム
+    </footer>
+
+  </div>
+</body>
+</html>
